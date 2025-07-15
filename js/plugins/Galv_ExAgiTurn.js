@@ -4,6 +4,7 @@
 //  For: RPGMAKER MV
 //  Galv_ExAgiTurn.js
 //-----------------------------------------------------------------------------
+//  2017-08-18 - Version 1.1 - fixed a bug when ending battle during ex turn
 //  2016-10-09 - Version 1.0 - release
 //-----------------------------------------------------------------------------
 // Terms can be found at:
@@ -18,7 +19,7 @@ Galv.EXTURN = Galv.EXTURN || {};        // Galv's stuff
 
 //-----------------------------------------------------------------------------
 /*:
- * @plugindesc (v.1.0) Have battlers gain an additional turn if they have much higher agility
+ * @plugindesc (v.1.1) Have battlers gain an additional turn if they have much higher agility
  * 
  * @author Galv - galvs-scripts.com
  *
@@ -90,6 +91,18 @@ Galv.EXTURN.colActive = PluginManager.parameters('Galv_ExAgiTurn')["Ex Turn Name
 Galv.EXTURN.colInActive = PluginManager.parameters('Galv_ExAgiTurn')["Non Ex Turn Name Color"];
 
 
+
+//-----------------------------------------------------------------------------
+// GAME UNIT
+//-----------------------------------------------------------------------------
+
+Galv.EXTURN.Game_Unit_onBattleEnd = Game_Unit.prototype.onBattleEnd;
+Game_Unit.prototype.onBattleEnd = function() {
+	Galv.EXTURN.Game_Unit_onBattleEnd.call(this);
+	Galv.EXTURN.active = null;
+};
+
+
 //-----------------------------------------------------------------------------
 // BATTLER BASE
 //-----------------------------------------------------------------------------
@@ -104,6 +117,12 @@ Galv.EXTURN.Game_BattlerBase_canMove = Game_BattlerBase.prototype.canMove;
 Game_BattlerBase.prototype.canMove = function() {
 	if (Galv.EXTURN.active && !this._exTurn) return false;
 	return Galv.EXTURN.Game_BattlerBase_canMove.call(this);
+};
+
+Galv.EXTURN.Game_Battler_onBattleEnd = Game_Battler.prototype.onBattleEnd;
+Game_Battler.prototype.onBattleEnd = function() {
+	Galv.EXTURN.Game_Battler_onBattleEnd.call(this);
+	this._exTurn = false;
 };
 
 

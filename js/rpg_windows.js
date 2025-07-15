@@ -1887,7 +1887,7 @@ Window_ItemCategory.prototype.update = function() {
 };
 
 Window_ItemCategory.prototype.makeCommandList = function() {
-    this.addCommand('Предметы',    'item');
+    this.addCommand(TextManager.item,    'item');
     this.addCommand(TextManager.weapon,  'weapon');
     this.addCommand(TextManager.armor,   'armor');
     this.addCommand(TextManager.keyItem, 'keyItem');
@@ -3645,8 +3645,8 @@ Window_NameInput.prototype.table = function() {
     } else if ($gameSystem.isRussian()) {
         return [Window_NameInput.RUSSIA];
     } else {
-        return [Window_NameInput.RUSSIA,
-                Window_NameInput.RUSSIA];
+        return [Window_NameInput.LATIN1,
+                Window_NameInput.LATIN2];
     }
 };
 
@@ -5413,7 +5413,7 @@ Window_ActorCommand.prototype.addGuardCommand = function() {
 };
 
 Window_ActorCommand.prototype.addItemCommand = function() {
-    this.addCommand('Предметы', 'item');
+    this.addCommand(TextManager.item, 'item');
 };
 
 Window_ActorCommand.prototype.setup = function(actor) {
